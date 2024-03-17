@@ -37,7 +37,7 @@ const loginUser = async (req, res) => {
     const message = `${otp} is your smscmoney code`;
     axios
       .get(
-        `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=923027119963&source=IMWS&text=${message}`
+        `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
       )
       .then(async (response) => {
         const data = await User.findByIdAndUpdate(
