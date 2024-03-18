@@ -121,16 +121,12 @@ const deleteUser = async (req, res) => {
 
 const addEmail = async (req, res) => {
   try {
-      
-   const user = await User.findById({_id: req.body.id });
-    if (user) {
       const data = await User.findByIdAndUpdate(
-        { _id: user._id },
+        { _id: req.body.id },
         { $set: { paypal_email: req.body.email } },
         { new: true }
       );
-      res.status(200).json({ error: false, user: data });
-    }
+      res.status(200).json({ error: false, user: data }); 
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }
