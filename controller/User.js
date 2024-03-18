@@ -4,7 +4,7 @@ const generateOTP = require("../service/generateOtp");
 const moment = require("moment");
 const axios = require("axios");
 const crypto = require('crypto');
-const { triggerAsyncId } = require("async_hooks");
+
 
 function generateReferralCode() {
     return crypto.randomBytes(5).toString('hex').toUpperCase();
