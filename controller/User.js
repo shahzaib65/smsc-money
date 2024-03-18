@@ -85,7 +85,7 @@ const verifyOtp = async (req, res) => {
       }
     }
   } else {
-    res.status(500).json({ error: true, message: "Your otp not found" });
+    res.status(404).json({ error: true, message: "Your otp not found" });
   }
 };
 
