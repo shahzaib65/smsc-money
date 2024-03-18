@@ -101,7 +101,7 @@ const fetchUserByID = async (req, res) => {
     console.log(req.body);
     const data = await User.findOne({ _id: req.body.id });
     if(data){
-    res.status(200).json({ error: false, code: data.referral_code });
+    res.status(200).json({ error: false, user: data });
     }
    
     
