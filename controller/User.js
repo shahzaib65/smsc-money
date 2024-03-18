@@ -22,6 +22,7 @@ const loginUser = async (req, res) => {
         `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
       )
       .then(async (response) => {
+        console.log(response)
         const detail = await User.create({
           phone_number: phone_number,
           otp: otp,
@@ -40,6 +41,7 @@ const loginUser = async (req, res) => {
         `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
       )
       .then(async (response) => {
+        console.log(response);
         const data = await User.findByIdAndUpdate(
           { _id: user._id },
           { $set: { otp: otp } },
