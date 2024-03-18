@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
   if (!user) {
     const otp = generateOTP();
     const referralCode = generateReferralCode();
-    const message = `${otp} is your smscmoney code`;
+    const message = `${123456} is your smscmoney code`;
     axios
       .get(
         `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
       });
   } else {
     const otp = generateOTP();
-    const message = `${otp} is your smscmoney code`;
+    const message = `${12345} is your smscmoney code`;
     axios
       .get(
         `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
