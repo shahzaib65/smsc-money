@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/login",loginUser);
 router.post("/verifyOtp",verifyOtp);
 router.get("/fetch",fetchUsers);
-router.get("/fetchUserByID",fetchUserByID);
+router.post("/fetchUserByID",fetchUserByID);
 router.post("/delete",deleteUser);
 router.post("/addEmail",addEmail)
 
