@@ -3,11 +3,10 @@ const User = require("../model/User");
 const generateOTP = require("../service/generateOtp");
 const moment = require("moment");
 const axios = require("axios");
-const crypto = require('crypto');
-
+const crypto = require("crypto");
 
 function generateReferralCode() {
-    return crypto.randomBytes(5).toString('hex').toUpperCase();
+  return crypto.randomBytes(5).toString("hex").toUpperCase();
 }
 
 const loginUser = async (req, res) => {
@@ -22,11 +21,11 @@ const loginUser = async (req, res) => {
         `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
       )
       .then(async (response) => {
-        console.log(response)
+        console.log(response);
         const detail = await User.create({
           phone_number: phone_number,
           otp: otp,
-          referral_code: referralCode
+          referral_code: referralCode,
         });
         res.status(200).json({ error: false, data: detail });
       })
@@ -60,7 +59,6 @@ function isOTPExpired(createdAt) {
   return moment() > expirationTime;
 }
 
-
 const verifyOtp = async (req, res) => {
   const user = await User.findOne({ otp: req.body.otp });
   if (user) {
@@ -89,52 +87,54 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-const fetchUsers = async(req,res)=>{
-    try {
-        const data = await User.find({});
-        res.status(200).json({error: false,users: data})
-    } catch (error) {
-        res.status(500).json({error: true, message: error.message});
-    }
-}
-
-const fetchUserByID = async(req,res)=>{
-    try {
-        const data = await User.findById({_id: req.body.id});
-        res.status(200).json({error: false,user: data})
-    } catch (error) {
-        res.status(500).json({error: true, message: error.message});
-    }
+const fetchUsers = async (req, res) => {
+  try {
+    const data = await User.find({});
+    res.status(200).json({ error: false, users: data });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 };
 
-const deleteUser = async(req,res)=>{
-     try {
-      const user = await User.findByIdAndDelete(req.body.id);
-      if (!user) {
-        return res.status(400).json({error: true,message: "User not found"});
-      }
-      res.status(200).json({error: false,message: "User deleted successfully"});
-    } catch (error) {
-      res.status(400).send({error: true,message: error.message})
-    }
-}
-
-const addEmail = async(req,res)=>{
+const fetchUserByID = async (req, res) => {
   try {
-
-  const user = await User.findOne({ _id: req.body.id });
-  if(user){
- const data = await User.findByIdAndUpdate(
-          { _id: user._id },
-          { $set: { paypal_email: req.body.email } },
-          { new: true }
-        );
-        res.status(200).json({ error: false, user: data });
-  }
+    const data = await User.findById({ _id: req.body.id });
+    res.status(200).json({ error: false, user: data });
   } catch (error) {
-    res.status(500).json({error: true,message: error.message})
+    res.status(500).json({ error: true, message: error.message });
   }
-}
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.body.id);
+    if (!user) {
+      return res.status(400).json({ error: true, message: "User not found" });
+    }
+    res
+      .status(200)
+      .json({ error: false, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(400).send({ error: true, message: error.message });
+  }
+};
+
+const addEmail = async (req, res) => {
+  try {
+      
+   const user = await User.findById({_id: req.body.id });
+    if (user) {
+      const data = await User.findByIdAndUpdate(
+        { _id: user._id },
+        { $set: { paypal_email: req.body.email } },
+        { new: true }
+      );
+      res.status(200).json({ error: false, user: data });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
+};
 
 module.exports = {
   loginUser,
@@ -142,5 +142,5 @@ module.exports = {
   fetchUsers,
   fetchUserByID,
   deleteUser,
-  addEmail
+  addEmail,
 };

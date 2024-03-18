@@ -7,6 +7,6 @@ router.post("/verifyOtp",verifyOtp);
 router.get("/fetch",fetchUsers);
 router.get("/fetchUserByID",fetchUserByID);
 router.post("/delete",deleteUser);
-router.post("/addEmail",addEmail)
+router.put("/addEmail",addEmail)
 
 module.exports = router;
