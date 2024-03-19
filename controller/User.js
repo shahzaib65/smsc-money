@@ -1,24 +1,43 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
-const generateOTP = require("../service/generateOtp");
+// const generateOTP = require("../service/generateOtp");
 const moment = require("moment");
 const axios = require("axios");
 const crypto = require("crypto");
+const randomstring = require('randomstring');
+
 
 function generateReferralCode() {
   return crypto.randomBytes(5).toString("hex").toUpperCase();
 }
 
+
+// Function to generate a random OTP of a specified length
+function generateOTP(length) {
+    const chars = '0123456789'; // Characters to use in the OTP
+    const otp = randomstring.generate({
+        length: length,
+        charset: chars
+    });
+    return otp;
+}
+
+
+
+
+
 const loginUser = async (req, res) => {
   const { phone_number } = req.body;
   const user = await User.findOne({ phone_number: phone_number });
   if (!user) {
-    const otp = generateOTP();
+    //const otp = generateOTP();
+     const otp = generateOTP(6);
     const referralCode = generateReferralCode();
-    const message = `${123456} is your smscmoney code`;
+    const message = `${otp} is your smscmoney code`;
+   
     axios
       .get(
-        `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
+        `http://164.52.219.194/api/v2/SendSMS?ApiKey=uie5FZjGcFWUtx438oHfjUph+HV/JcYNGykzc0zuwfc=&ClientId=b98f6521-2913-4095-95e1-7971dadc0d2b&SenderId=IMWS&Message=${message}&MobileNumbers=${phone_number}&Is_Unicode=false&Is_Flash=false`
       )
       .then(async (response) => {
         console.log(response);
@@ -33,11 +52,11 @@ const loginUser = async (req, res) => {
         res.status(500).json({ error: true, data: err.message });
       });
   } else {
-    const otp = generateOTP();
-    const message = `${12345} is your smscmoney code`;
+    const otp = generateOTP(6);
+    const message = `${otp} is your smscmoney code`;
     axios
       .get(
-        `https://cp.inmobilews.com/API/SendSMS?username=adam.poole85&apiId=A4b9tySp&json=True&destination=${phone_number}&source=IMWS&text=${message}`
+        `http://164.52.219.194/api/v2/SendSMS?ApiKey=uie5FZjGcFWUtx438oHfjUph+HV/JcYNGykzc0zuwfc=&ClientId=b98f6521-2913-4095-95e1-7971dadc0d2b&SenderId=IMWS&Message=${message}&MobileNumbers=${phone_number}&Is_Unicode=false&Is_Flash=false`
       )
       .then(async (response) => {
         console.log(response);
