@@ -23,54 +23,27 @@ function generateOTP(length) {
 }
 
 const register_phone_number = async (req, res) => {
-
    const { phone_number,otp } = req.body;
-   const referralCode = generateReferralCode();
-   const detail = await User.create({
+  const user = await User.findOne({ phone_number: phone_number });
+  if (!user) {
+    const referralCode = generateReferralCode();
+    const detail = await User.create({
           phone_number: phone_number,
           referral_code: referralCode,
           otp: otp
         });
-        res.status(200).json({ error: false, data: detail });        
-  // const user = await User.findOne({ phone_number: phone_number });
-  // if (!user) {
-  //   //const otp = generateOTP();
-  //    const otp = generateOTP(6);
+       res.status(200).json({ error: false, data: detail });  
    
-  //   const message = `${otp} is your smscmoney code`;
-   
-  //   axios
-  //     .get(
-  //       `http://164.52.219.194/api/v2/SendSMS?ApiKey=uie5FZjGcFWUtx438oHfjUph+HV/JcYNGykzc0zuwfc=&ClientId=b98f6521-2913-4095-95e1-7971dadc0d2b&SenderId=IMWS&Message=${message}&MobileNumbers=${phone_number}&Is_Unicode=false&Is_Flash=false`
-  //     )
-  //     .then(async (response) => {
-  //       console.log(response);
- 
-  //     })
-  //     .catch((err) => {
-  //       res.status(500).json({ error: true, data: err.message });
-  //     });
-  // } else {
-  //   const otp = generateOTP(6);
-  //   const message = `${otp} is your smscmoney code`;
-  //   axios
-  //     .get(
-  //       `http://164.52.219.194/api/v2/SendSMS?ApiKey=uie5FZjGcFWUtx438oHfjUph+HV/JcYNGykzc0zuwfc=&ClientId=b98f6521-2913-4095-95e1-7971dadc0d2b&SenderId=IMWS&Message=${message}&MobileNumbers=${phone_number}&Is_Unicode=false&Is_Flash=false`
-  //     )
-  //     .then(async (response) => {
-  //       console.log(response);
-  //       const data = await User.findByIdAndUpdate(
-  //         { _id: user._id },
-  //         { $set: { otp: otp } },
-  //         { new: true }
-  //       );
-  //       res.status(200).json({ error: false, data: data });
-  //     })
-  //     .catch((err) => {
-  //       res.status(500).json({ error: true, data: err.message });
-  //     });
-  // }
+  } else {
+    const data = await User.findByIdAndUpdate(
+          { _id: user._id },
+          { $set: { otp: otp } },
+          { new: true }
+        );
+        res.status(200).json({ error: false, data: data });
+  }
 };
+
 
 function isOTPExpired(createdAt) {
   const expirationTime = moment(createdAt).add(2, "minutes"); // OTP expires after 2 minutes
