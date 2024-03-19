@@ -1,8 +1,8 @@
 const express = require('express');
-const { loginUser,verifyOtp,fetchUsers,fetchUserByID,deleteUser,addEmail} = require('../controller/User');
+const { register_phone_number,verifyOtp,fetchUsers,fetchUserByID,deleteUser,addEmail} = require('../controller/User');
 const router = express.Router();
 //login route
-router.post("/login",loginUser);
+router.post("/register",register_phone_number);
 router.post("/verifyOtp",verifyOtp);
 router.get("/fetch",fetchUsers);
 router.post("/fetchUserByID",fetchUserByID);
