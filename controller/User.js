@@ -24,7 +24,8 @@ function generateOTP(length) {
 
 const register_phone_number = async (req, res) => {
    const { phone_number,otp } = req.body;
-  const user = await User.findOne({ phone_number: phone_number });
+  try {
+    const user = await User.findOne({ phone_number: phone_number });
   if (!user) {
     const referralCode = generateReferralCode();
     const detail = await User.create({
@@ -41,6 +42,9 @@ const register_phone_number = async (req, res) => {
           { new: true }
         );
         res.status(200).json({ error: false, data: data });
+  }
+  } catch (error) {
+    res.status(500).json({error: true, data: error.message});
   }
 };
 
