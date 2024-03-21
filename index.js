@@ -9,6 +9,10 @@ const connectToMongo = require('./db');
  app.use("/api/user",require("./router/User"));
  app.use("/api/admin/message",require("./router/AdminMessage"));
 
+
+ 
+
+
 app.listen(process.env.PORT,()=>{
     console.log("Server is connected with",process.env.PORT);
     connectToMongo();
