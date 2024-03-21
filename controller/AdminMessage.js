@@ -16,7 +16,7 @@ const admin_message = async (req, res) => {
 };
 const get_admin_message = async(req,res)=>{
     try {
-        const detail = await Admin.find()
+        const detail = await Admin.find().sort({ _id: -1 })
         res.status(200).json({error: false,data: detail})
         
     } catch (error) {
