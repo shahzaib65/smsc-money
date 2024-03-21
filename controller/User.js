@@ -84,7 +84,7 @@ const verifyOtp = async (req, res) => {
 
 const fetchUsers = async (req, res) => {
   try {
-    const data = await User.find({});
+    const data = await User.find();
     res.status(200).json({ error: false, users: data });
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
