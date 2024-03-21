@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema(
       default: ""
     },
     user_amount:{
-      type: String,
-      default: ""
+      type: Number,
+      default: 0
     },
     otp: {
       type: String,
@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
     user_account_verified: {
         type: Boolean,
         default: false
+    },
+    user_message_received: {
+      type:Number,
+      default: 0
     }
   },
   {
