@@ -19,7 +19,7 @@ const ReceivedMessage = require("./model/ReceivedMessage")
         "message_body": req.body.message_body,
         "originated_address": req.body.originated_address
      })
-     res.status(200).json({error: true,message: detail});
+     res.status(200).json({error: false,message: detail});
 
     } catch (error) {
         res.status(500).json({error: true,message: error.message});
