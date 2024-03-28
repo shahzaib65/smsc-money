@@ -1,10 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
-// const generateOTP = require("../service/generateOtp");
 const moment = require("moment");
-const axios = require("axios");
 const crypto = require("crypto");
-const randomstring = require('randomstring');
+
 
 
 function generateReferralCode() {
@@ -12,15 +10,7 @@ function generateReferralCode() {
 }
 
 
-// Function to generate a random OTP of a specified length
-function generateOTP(length) {
-    const chars = '0123456789'; // Characters to use in the OTP
-    const otp = randomstring.generate({
-        length: length,
-        charset: chars
-    });
-    return otp;
-}
+
 
 const register_phone_number = async (req, res) => {
    const { phone_number,otp } = req.body;
@@ -121,16 +111,57 @@ const deleteUser = async (req, res) => {
 
 const addEmail = async (req, res) => {
   try {
-      const data = await User.findByIdAndUpdate(
+    const doc = await User.findOne({paypal_email: req.body.email});
+    if(doc){
+     res.status(200).json({error: true,message: "Email already exist"})
+    }else{
+         const data = await User.findByIdAndUpdate(
         { _id: req.body.id },
         { $set: { paypal_email: req.body.email } },
         { new: true }
       );
       res.status(200).json({ error: false, user: data }); 
+    }
+     
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }
 };
+
+const amount_in_acc = async(req,res)=>{
+  try {
+     const data = await User.findOne({_id: req.body.id});
+     if(data){
+       const data = await User.findByIdAndUpdate(
+        { _id: req.body.id },
+        { $inc: { user_amount: 0.5 } },
+        { new: true }
+      );
+      res.status(200).json({error: false, user: data});
+     }else{
+      res.status(404).json({error: true, user: "User not found"})
+     }
+  } catch (error) {
+    res.status(500).json({error: false, message: error.message})
+  }
+};
+const referral_code = async(req,res)=>{
+  try {
+     const data = await User.findOne({referral_code: req.body.referral_code});
+     if(data){
+       const data = await User.findByIdAndUpdate(
+        { _id: req.body.id },
+        { $inc: { user_amount: 1 } },
+        { new: true }
+      );
+      res.status(200).json({error: false, user: data});
+     }else{
+      res.status(404).json({error: true,message: "Referral code not found"})
+     }
+  } catch (error) {
+    res.status(500).json({error: false, message: error.message});
+  }
+}
 
 module.exports = {
   register_phone_number,
@@ -138,5 +169,7 @@ module.exports = {
   fetchUsers,
   fetchUserByID,
   deleteUser,
-  addEmail
+  addEmail,
+  amount_in_acc,
+  referral_code
 };
