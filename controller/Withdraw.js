@@ -42,7 +42,19 @@ const updateWithdraw = async (req, res) => {
   }
 };
 
+const getWithdraw = async(req,res)=>{
+  try {
+
+    const data = await withdraw.find()
+    res.status(200).json({error: false, withdraw: data})
+    
+  } catch (error) {
+    res.status(500).json({error: true,message: error.message})
+  }
+}
+
 module.exports = {
    register_withdraw,
-   updateWithdraw
+   updateWithdraw,
+   getWithdraw
 }
