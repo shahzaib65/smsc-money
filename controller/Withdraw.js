@@ -51,10 +51,22 @@ const getWithdraw = async(req,res)=>{
   } catch (error) {
     res.status(500).json({error: true,message: error.message})
   }
+};
+
+const findWithdrawById = async(req,res)=>{
+  try {
+    
+   const doc = await withdraw.find({_id: req.body.id})
+   res.status(200).json({error: false, data: doc})
+
+  } catch (error) {
+    res.status(500).json({error: true, message: error.message})
+  }
 }
 
 module.exports = {
    register_withdraw,
    updateWithdraw,
-   getWithdraw
+   getWithdraw,
+   findWithdrawById
 }
