@@ -88,8 +88,6 @@ const fetchUserByID = async (req, res) => {
     if(data){
     res.status(200).json({ error: false, user: data });
     }
-   
-    
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
   }

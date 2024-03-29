@@ -10,6 +10,7 @@ const ReceivedMessage = require("./model/ReceivedMessage")
  app.use("/api/user",require("./router/User"));
  app.use("/api/admin/message",require("./router/AdminMessage"));
  app.use("/api/withdraw", require("./router/Withdraw"));
+ app.use('/api/received', require("./router/ReceivedMessage"));
 
 
  app.post("/api/device/message",async(req,res)=>{
