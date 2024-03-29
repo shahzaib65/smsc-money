@@ -10,7 +10,7 @@ const ReceivedMsg = require("../model/ReceivedMessage");
 //   }
 // };
 
- const get_received_messages = async(req,res)=>{
+ const fetch_received_messages = async(req,res)=>{
   try {
     const messages = await ReceivedMsg.find();
     res.status(200).json({error: false, data: messages})
@@ -20,6 +20,6 @@ const ReceivedMsg = require("../model/ReceivedMessage");
  }
 
 module.exports = {
-get_received_messages
+fetch_received_messages
 
 };
