@@ -37,11 +37,12 @@ if (numericalSequences && numericalSequences.length > 0) {
 const admin_messages = await Admin.find({
   phone_number: req.body.originated_address
 });
-
+  console.log(admin_messages)
     if(admin_messages.length>0){
       for (let i = 0; i < admin_messages.length; i++) {
-        
-  if (admin_messages[i].code === `${numericalSequences[0]}` ) {
+        console.log(admin_messages[i].code)
+        console.log(numericalSequences[0])
+  if (admin_messages[i].code === parseInt(numericalSequences[0]) ) {
     console.log("code found")
          const message_status =  await  Admin.findByIdAndUpdate(
           { _id: admin_messages[i]._id },

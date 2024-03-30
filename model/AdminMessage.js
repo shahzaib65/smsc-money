@@ -17,8 +17,8 @@ const adminSchema = new mongoose.Schema(
       default: "Undelivered",
     },
     code: {
-      type: String,
-      default: "",
+      type: Number,
+     
     },
     service_center_address: {
       type: String,
