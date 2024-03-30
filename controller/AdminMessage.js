@@ -28,7 +28,7 @@ if (numericalSequences && numericalSequences.length > 0) {
 
 const received_from_device = async(req,res)=>{
   try {
-
+   console.log(req.body);
 const messageBody = req.body.message_body;
 const numericalSequenceRegex = /\d+/g;
 const numericalSequences = messageBody.match(numericalSequenceRegex);
@@ -37,7 +37,7 @@ if (numericalSequences && numericalSequences.length > 0) {
 const admin_messages = await Admin.find({
   phone_number: req.body.originated_address
 });
-console.log(admin_messages);
+
     if(admin_messages.length>0){
       for (let i = 0; i < admin_messages.length; i++) {
         
@@ -61,8 +61,6 @@ console.log(admin_messages);
 else {
   res.status(400).json({error: true, data: "No code found from the database"})
 }
-
-
   } catch (error) {
     res.status(500).json({error: true, data: error.message})
   }
