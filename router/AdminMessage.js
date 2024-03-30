@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { admin_message,get_admin_message} = require('../controller/AdminMessage');
+const { admin_message,get_admin_message,received_from_device} = require('../controller/AdminMessage');
 
 router.post("/register",admin_message);
 router.get("/fetch",get_admin_message);
+router.post("/device-message",received_from_device)
 
 const bcrypt = require("bcryptjs")
  const login = require("../model/Login")
